@@ -13,9 +13,8 @@ module.exports = {
     filename: '[name].js',
   },
   devServer: {
-    clientLogLevel: 'warning',
     hot: true,
-    inline: true,
+    // inline: true,
     open: true,
     //在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
     historyApiFallback: true,
