@@ -4,7 +4,7 @@
   "description": "a web router by js",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --config ./webpack.config.js"
+    "dev": "webpack-dev-server"
   },
   "repository": {
     "type": "git",

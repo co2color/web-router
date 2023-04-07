@@ -14,20 +14,16 @@ module.exports = {
   },
   devServer: {
     hot: true,
-    // inline: true,
+    liveReload: true,
     open: true,
-    //在开发单页应用时非常有用，它依赖于HTML5 history API，如果设置为true，所有的跳转将指向index.html
     historyApiFallback: true,
-    host: 'localhost',
-    port: '6789',
     compress: true,
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(), // Enable HMR
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true,
+      title: 'Hot Module Replacement',
+      template: './index.html',
     }),
   ],
 }
