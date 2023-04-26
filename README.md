@@ -6,28 +6,30 @@ tags: js
 categories: 前端
 ---
 
-> 话不多说，用过vue-router就知道这篇在讲什么。
+> 话不多说，用过 vue-router 就知道这篇在讲什么。
 
-前端路由主要分为hash模式和history模式。
+前端路由主要分为 hash 模式和 history 模式。
 
 #### hash
-hash模式使用onhashchange事件监听hash值变化：
-``` js
-window.onhashchange = function(){
-    
-    // hash 值改变 
-    
-    // do you want
+
+hash 模式使用 onhashchange 事件监听 hash 值变化：
+
+```js
+window.onhashchange = function () {
+  // hash 值改变
+  // do you want
 }
 ```
 
 #### history
+
 详情见(mdn)[https://developer.mozilla.org/zh-CN/docs/Web/API/History]
 
 ### 实践
 
-首先定义BaseRouter:
-``` js
+首先定义 BaseRouter:
+
+```js
 class BaseRouter {
   //list = 路由列表
   constructor(list) {
@@ -41,10 +43,15 @@ class BaseRouter {
   }
 }
 ```
-BaseRouter接收路由数组，定义render函数用来渲染对应html。
 
-接下来实现hash模式的函数：
-``` js
+BaseRouter 接收路由数组，定义 render 函数用来渲染对应 html。
+
+有了 base，我们就来挨个实现 hash 和 history。
+不管是 hash 还是 history，我们都要实现同样的几个方法：hander、getState、getUrl、push、replace、go
+
+接下来先实现 hash 模式的函数：
+
+```js
 import { BaseRouter } from './base.js'
 
 class HashRouter extends BaseRouter {
@@ -87,4 +94,43 @@ class HashRouter extends BaseRouter {
 }
 ```
 
+然后是 historyRender：
 
+```js
+import { BaseRouter } from './base.js'
+
+export class HistoryRouter extends BaseRouter {
+  constructor(list) {
+    super(list)
+    this.handler()
+    //监听历史栈信息变化,变化时重新渲染
+    window.addEventListener('popstate', (e) => {
+      this.handler()
+    })
+  }
+  //渲染
+  handler() {
+    this.render(this.getState())
+  }
+  //获取路由路径
+  getState() {
+    const path = window.location.pathname
+    return path ? path : '/'
+  }
+  //使用pushState方法实现压入功能
+  //PushState不会触发popstate事件,所以需要手动调用渲染函数
+  push(path) {
+    history.pushState(null, null, path)
+    this.handler()
+  }
+  //使用replaceState实现替换功能
+  //replaceState不会触发popstate事件,所以需要手动调用渲染函数
+  replace(path) {
+    history.replaceState(null, null, path)
+    this.handler()
+  }
+  go(n) {
+    window.history.go(n)
+  }
+}
+```
