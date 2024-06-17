@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/co2color/web-router#readme",
   "devDependencies": {
+    "@antfu/eslint-config": "^2.6.4",
+    "eslint": "^8.56.0",
     "html-webpack-plugin": "^5.5.0",
     "webpack": "^5.78.0",
     "webpack-cli": "^5.0.1",
